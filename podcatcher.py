@@ -96,3 +96,11 @@ if __name__ == "__main__":
     print("Podcatcher %s" % (p.version))
     p.parse_feed_list()
     p.create_directory()
+
+
+    r = requests.get('http://feedproxy.google.com/~r/binaergewitter-podcast/~5/Et3pXTWBUrk/2015-05-07.Binaergewitter.Talk.120.mp3', stream=True)
+    with open('test.mp3', 'wb') as f:
+       for chunk in r.iter_content(chunk_size=1024): 
+          if chunk: # filter out keep-alive new chunks
+             f.write(chunk)
+             f.flush()
