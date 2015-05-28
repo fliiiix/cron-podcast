@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import os
 import requests
 import slugify
 import xml.etree.ElementTree as XML
@@ -13,19 +14,25 @@ class Podcast(object):
     def __init__(self):
         self.version = "0.0.1"
         self.feeds = []
+        self.base_folder = ''
     
+    def create_directory(self):
+        p = os.path.abspath(self.base_folder)
+        if not os.path.exists(p):
+            os.makedirs(p)
+            print("The directory %s was created." % (p))
+
     def parse_feed_list(self):
         filename="./feedlist.conf"
 
         with open(filename, "r") as configfile:
             array = []
             for idx, line in enumerate(configfile):
+                line = line.rstrip('\n').rstrip('\r')
                 if idx == 0:
-                    print("dir %s" %(line))
+                    self.base_folder = line
                     continue
 
-                line = line.rstrip('\n').rstrip('\r')
-                print(line)
                 self.parse_feed(line)
                 array.append(line)
             self.feeds = array
@@ -52,3 +59,4 @@ if __name__ == "__main__":
     p = Podcast()
     print("Podcatcher %s" % (p.version))
     p.parse_feed_list()
+    p.create_directory()
