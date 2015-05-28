@@ -18,6 +18,9 @@ class Podcast(object):
     
     def create_directory(self):
         p = os.path.abspath(self.base_folder)
+        self.base_path = p
+
+        # create dir if needed
         if not os.path.exists(p):
             os.makedirs(p)
             print("The directory %s was created." % (p))
@@ -37,6 +40,24 @@ class Podcast(object):
                 array.append(line)
             self.feeds = array
 
+    def build_podcast(self, title):
+        slug_title = slugify.slugify(title)
+        p = os.path.join(self.base_folder, slug_title)
+	
+        if not os.path.exists(p):
+            os.makedirs(p)
+
+        guids = []
+        p = os.path.join(p, '.guid_cache')
+        if os.path.isfile(p):
+            with open(p, "r") as guidfile:
+                guids = f.read().splitlines()
+        else:
+            open(p, 'a').close()
+
+        return guids
+
+        
     def parse_feed(self, feed):
         ua = "curl-podcatcher/%s" % (self.version)
         headers = {'user-agent': ua, 'Accept': 'text/xml'}
@@ -44,11 +65,11 @@ class Podcast(object):
         r = requests.get(feed, headers=headers)
         if r.status_code == requests.codes.ok:
             xroot = XML.fromstring(r.text)
-            title = xroot.find('channel/title')
             
-            print(title)
-            slug_title = slugify.slugify(title.text)
-            print(slug_title)
+            # build podcast dir or reade list with
+            # already downloaded podcasts
+            title = xroot.find('channel/title')
+            self.build_podcast(title.text)
 
             for item in xroot.iter('item'):
                 enc = item.find('enclosure')
