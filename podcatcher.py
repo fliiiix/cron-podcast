@@ -17,9 +17,13 @@ class Podcast(object):
     def parse_feed_list(self):
         filename="./feedlist.conf"
 
-        with open(filename, "r") as ins:
+        with open(filename, "r") as configfile:
             array = []
-            for line in ins:
+            for idx, line in enumerate(configfile):
+                if idx == 0:
+                    print("dir %s" %(line))
+                    continue
+
                 line = line.rstrip('\n').rstrip('\r')
                 print(line)
                 self.parse_feed(line)
