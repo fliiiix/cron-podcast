@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import requests
+import slugify
 import xml.etree.ElementTree as XML
 
 # force encoding to utf8
@@ -31,8 +32,13 @@ class Podcast(object):
 
         r = requests.get(feed, headers=headers)
         if r.status_code == requests.codes.ok:
-            #data = r.text.decode("ascii", errors='ignore')
             xroot = XML.fromstring(r.text)
+            title = xroot.find('channel/title')
+            
+            print(title)
+            slug_title = slugify.slugify(title.text)
+            print(slug_title)
+
             for item in xroot.iter('item'):
                 enc = item.find('enclosure')
                 print(enc.attrib)
