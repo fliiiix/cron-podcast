@@ -51,7 +51,12 @@ class Podcast(object):
         p = os.path.join(p, '.guid_cache')
         if os.path.isfile(p):
             with open(p, "r") as guidfile:
-                guids = f.read().splitlines()
+                guidfile.seek(0)
+                first_char = guidfile.read(1)
+
+                if first_char:
+                    guidfile.seek(0)
+                    guids = f.read().splitlines()
         else:
             open(p, 'a').close()
 
