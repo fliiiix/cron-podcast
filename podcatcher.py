@@ -51,16 +51,11 @@ class Podcast(object):
         p = os.path.join(p, '.guid_cache')
         if os.path.isfile(p):
             with open(p, "r") as guidfile:
-                guidfile.seek(0)
-                first_char = guidfile.read(1)
-
-                if first_char:
-                    guidfile.seek(0)
-                    guids = f.read().splitlines()
+                guids = guidfile.read().splitlines()
         else:
             open(p, 'a').close()
 
-        return guids
+        return (p, guids)
 
         
     def parse_feed(self, feed):
@@ -74,12 +69,27 @@ class Podcast(object):
             # build podcast dir or reade list with
             # already downloaded podcasts
             title = xroot.find('channel/title')
-            self.build_podcast(title.text)
+            pod = self.build_podcast(title.text)
+            (podpath, guids) = pod
 
             for item in xroot.iter('item'):
                 enc = item.find('enclosure')
-                print(enc.attrib)
-                print(item.find('guid').text)
+                guid = item.find('guid')
+
+                url = enc.get('url')
+                uuid = guid.text
+
+                if uuid not in guids:
+                    self.download_podcast(url, uuid, podpath)
+
+
+    def download_podcast(self, url, guid, path):
+        with open(path, "a") as f:
+            f.write("%s\n" % (guid))
+        print(url)
+        print(guid)
+        print(path)
+
 
 if __name__ == "__main__":
     p = Podcast()
