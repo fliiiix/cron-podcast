@@ -32,6 +32,13 @@ class Podcast(object):
             array = []
             for idx, line in enumerate(configfile):
                 line = line.rstrip('\n').rstrip('\r')
+                line = line.strip()
+                if line == '':
+                    continue
+
+                if line[0] == '#':
+                    continue
+
                 if idx == 0:
                     self.base_folder = line
                     continue
