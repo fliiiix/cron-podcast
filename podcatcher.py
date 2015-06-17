@@ -12,7 +12,7 @@ sys.setdefaultencoding('utf-8')
 
 class Podcast(object):
     def __init__(self):
-        self.version = "0.0.1"
+        self.version = "0.0.2"
         self.feeds = []
         self.base_folder = ''
     
@@ -32,6 +32,13 @@ class Podcast(object):
             array = []
             for idx, line in enumerate(configfile):
                 line = line.rstrip('\n').rstrip('\r')
+                line = line.strip()
+                if line == '':
+                    continue
+
+                if line[0] == '#':
+                    continue
+
                 if idx == 0:
                     self.base_folder = line
                     continue
@@ -87,10 +94,11 @@ class Podcast(object):
         p = os.path.dirname(path) 
         print("Downloading %s to %s" % (url, p))
 
-        filename = url.split("?")[0].split("/")[-1] # fuck yeah
+        r = requests.get(url, stream=True, allow_redirects=True)
+
+        filename = r.url.split("?")[0].split("/")[-1] # fuck yeah
         file_path = os.path.join(p, filename)
 
-        r = requests.get(url, stream=True)
         with open(file_path, 'wb') as f:
            for chunk in r.iter_content(chunk_size=1024): 
               if chunk: # filter out keep-alive new chunks
