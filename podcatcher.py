@@ -12,7 +12,7 @@ sys.setdefaultencoding('utf-8')
 
 class Podcast(object):
     def __init__(self):
-        self.version = "0.0.1"
+        self.version = "0.0.2"
         self.feeds = []
         self.base_folder = ''
     
