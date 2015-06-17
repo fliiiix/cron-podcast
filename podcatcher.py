@@ -94,10 +94,11 @@ class Podcast(object):
         p = os.path.dirname(path) 
         print("Downloading %s to %s" % (url, p))
 
-        filename = url.split("?")[0].split("/")[-1] # fuck yeah
+        r = requests.get(url, stream=True, allow_redirects=True)
+
+        filename = r.url.split("?")[0].split("/")[-1] # fuck yeah
         file_path = os.path.join(p, filename)
 
-        r = requests.get(url, stream=True)
         with open(file_path, 'wb') as f:
            for chunk in r.iter_content(chunk_size=1024): 
               if chunk: # filter out keep-alive new chunks
