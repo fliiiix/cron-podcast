@@ -16,8 +16,8 @@ Can download your podcasts.
 ## The config (feedlist.conf)
 
 The configuration is really simple. Just add for each podcast a new line with the feed url. 
-Except the first line, here you define the download directory which can be an absolute or a relative path 
-on your file-system.
+Except for the first line, here you define the download directory which can be an absolute or a relative path 
+on your filesystem.
 
 
 **Example feedlist.conf**
