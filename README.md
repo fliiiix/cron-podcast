@@ -4,7 +4,7 @@ Can download your podcasts.
 
 ## Quickstart
 
-1. install python (I just tested python 2.7 shame on me)
+1. install python (Tested with Python 3.4.2 and Python 2.7.10)
 2. install virtualenv (probably something like `apt-get install python-virtualenv`)
 3. clone this repo
 4. create a virtualenv with `virtualenv env`
