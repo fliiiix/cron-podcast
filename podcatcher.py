@@ -1,14 +1,10 @@
-# coding: utf-8
+#!/usr/bin/env python
+#-*- coding: utf-8 -*-
 
 import os
 import requests
 import slugify
 import xml.etree.ElementTree as XML
-
-# force encoding to utf8
-import sys
-reload(sys) 
-sys.setdefaultencoding('utf-8')
 
 class Podcast(object):
     def __init__(self):
@@ -68,10 +64,12 @@ class Podcast(object):
     def parse_feed(self, feed):
         ua = "curl-podcatcher/%s" % (self.version)
         headers = {'user-agent': ua, 'Accept': 'text/xml'}
-
+        
         r = requests.get(feed, headers=headers)
+        r.encoding = 'utf-8'
+        parser = XML.XMLParser(encoding='utf-8')
         if r.status_code == requests.codes.ok:
-            xroot = XML.fromstring(r.text)
+            xroot = XML.fromstring(r.text.encode( "utf-8" ), parser=parser)
             
             # build podcast dir or reade list with
             # already downloaded podcasts
@@ -117,5 +115,3 @@ if __name__ == "__main__":
     print("Podcatcher %s" % (p.version))
     p.parse_feed_list()
     p.create_directory()
-
-
