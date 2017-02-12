@@ -2,29 +2,22 @@
 #-*- coding: utf-8 -*-
 
 import os
+import sys
 import requests
 import slugify
+import argparse
 import xml.etree.ElementTree as XML
 
+
 class Podcast(object):
-    def __init__(self):
+    def __init__(self, feedlist, download_dir):
         self.version = "0.0.3"
         self.feeds = []
-        self.base_folder = ''
-    
-    def create_directory(self):
-        p = os.path.abspath(self.base_folder)
-        self.base_path = p
-
-        # create dir if needed
-        if not os.path.exists(p):
-            os.makedirs(p)
-            print("The directory %s was created." % (p))
+        self.base_folder = download_dir
+        self.feedlist = feedlist
 
     def parse_feed_list(self):
-        filename="./feedlist.conf"
-
-        with open(filename, "r") as configfile:
+        with open(self.feedlist, "r") as configfile:
             array = []
             for idx, line in enumerate(configfile):
                 line = line.rstrip('\n').rstrip('\r')
@@ -35,10 +28,6 @@ class Podcast(object):
                 if line[0] == '#':
                     continue
 
-                if idx == 0:
-                    self.base_folder = line
-                    continue
-
                 self.parse_feed(line)
                 array.append(line)
             self.feeds = array
@@ -46,7 +35,7 @@ class Podcast(object):
     def build_podcast(self, title):
         slug_title = slugify.slugify(title)
         p = os.path.join(self.base_folder, slug_title)
-	
+    
         if not os.path.exists(p):
             os.makedirs(p)
 
@@ -111,7 +100,34 @@ class Podcast(object):
 
 
 if __name__ == "__main__":
-    p = Podcast()
-    print("Podcatcher %s" % (p.version))
-    p.parse_feed_list()
-    p.create_directory()
+    parser = argparse.ArgumentParser(description="CLI podcast client.")
+    parser.add_argument("-f", "--feed", help="A file where every feed url is listed.")
+    parser.add_argument("-d", "--download-dir", help="A directory where the files are saved.")
+    parser.add_argument("--version", action="store_true", help="The Podcatcher version.")
+    args = parser.parse_args()
+
+    p = Podcast(args.feed, args.download_dir)
+    if args.version:
+        print("Podcatcher %s" % (p.version))
+        exit()
+
+    # print help for missing arguments
+    if len(sys.argv) == 1:
+        print("Podcatcher %s" % (p.version))
+        parser.print_help()
+        sys.exit(1)
+
+    # validate params
+    valid = True
+    if args.feed is None or not os.path.isfile(args.feed):
+        valid = False
+        print("Please provide a valid file with your feedlist! (-f/--feed FEED)")
+
+    if args.download_dir is None or not os.path.isdir(args.download_dir):
+        valid = False
+        print("Please provide a valid folder to download! (-d/--download-dir DOWNLOAD_DIR)")
+
+    if valid:
+        p.parse_feed_list()
+        p.create_directory() 
+
