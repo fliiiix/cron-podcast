@@ -1,6 +1,6 @@
 # cron-podcast
 
-Can download your podcasts.
+Downloads your podcasts.
 
 ## Quickstart
 
@@ -8,9 +8,9 @@ Can download your podcasts.
 2. install virtualenv (probably something like `apt-get install python-virtualenv`)
 3. clone this repo
 4. create a virtualenv with `virtualenv env`
-5. load it `. env/bin/actiavate`
+5. load it `. env/bin/activate`
 6. install dependencies `pip install -r requirements.txt`
-7. your done run it `./podcatcher.py -f feedlist.conf -d /here/are/your/podcast/stored`
+7. your done, run it `./podcatcher.py -f feedlist.conf -d /here/are/your/podcast/stored`
 
 ## Usage
 
@@ -30,7 +30,7 @@ optional arguments:
 
 ## The config (feedlist.conf)
 
-The configuration is really simple. Just add for each podcast a new line with the feed url. 
+The configuration is really simple: just add for each podcast a new line with the feed url. 
 
 
 **Example feedlist.conf**
@@ -50,7 +50,7 @@ downloaded podcast. The format for it is `%Y_%m_%d %H:%M|GUID` the date is the d
 
 To migrate from 0.1 to 0.2 or later just add `XXXX_XX_XX XX:XX|`.
 
-This should do the trick 
+This should do the trick.
 
 ```
 for f in $(find . -name .guid_cache); do sed -i -e 's/^/XXXX_XX_XX XX:XX|/' $f; done
