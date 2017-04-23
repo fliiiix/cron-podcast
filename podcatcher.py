@@ -7,7 +7,7 @@ import xml.etree.ElementTree as XML
 
 class Podcast(object):
     def __init__(self, feedlist, download_dir):
-        self.version = "0.2.0"
+        self.version = "0.2.1"
         self.feeds = []
         self.base_folder = download_dir
         self.feedlist = feedlist
@@ -43,6 +43,8 @@ class Podcast(object):
         else:
             open(p, 'a').close()
 
+        # well, this removes the date from the guid
+        guids = list(map(lambda uuid: uuid[17:], guids))
         return (p, guids)
 
         

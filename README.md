@@ -15,7 +15,7 @@ Can download your podcasts.
 ## Usage
 
 ```
-Podcatcher 0.1.0
+Podcatcher 0.2.1
 usage: podcatcher.py [-h] [-f FEED] [-d DOWNLOAD_DIR] [--version]
 
 CLI podcast client.
@@ -47,3 +47,5 @@ My Podcastlist can be found in this gist: [fliiiix/259bc74a40c9bf56cef7d9cb9b744
 
 Each item should have a guid which is saved to `$podcastname/.guid_cache` where each line represents a 
 downloaded podcast. The format for it is `%Y_%m_%d %H:%M|GUID` the date is the download time.
+
+To migrate from 0.1 to 0.2 or later just add `XXXX_XX_XX XX:XX|`.
