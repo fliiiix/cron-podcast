@@ -49,3 +49,9 @@ Each item should have a guid which is saved to `$podcastname/.guid_cache` where 
 downloaded podcast. The format for it is `%Y_%m_%d %H:%M|GUID` the date is the download time.
 
 To migrate from 0.1 to 0.2 or later just add `XXXX_XX_XX XX:XX|`.
+
+This should do the trick 
+
+```
+for f in $(find . -name .guid_cache); do sed -i -e 's/^/XXXX_XX_XX XX:XX|/' $f; done
+```
