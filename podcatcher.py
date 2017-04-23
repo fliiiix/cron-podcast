@@ -1,11 +1,7 @@
 #!/usr/bin/env python
 #-*- coding: utf-8 -*-
 
-import os
-import sys
-import requests
-import slugify
-import argparse
+import os, sys, time, argparse, requests, slugify
 import xml.etree.ElementTree as XML
 
 
@@ -94,7 +90,7 @@ class Podcast(object):
         
         # log guid
         with open(path, "a") as f:
-            f.write("%s\n" % (guid))
+            f.write("%s%s\n" % (time.strftime("%Y_%m_%d %H:%M|"), guid))
         
         print("Finished the download of %s" %(file_path))
 

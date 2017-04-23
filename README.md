@@ -40,3 +40,10 @@ http://feeds.feedburner.com/DieWrintheit
 ```
 
 My Podcastlist can be found in this gist: [fliiiix/259bc74a40c9bf56cef7d9cb9b7441b5](https://gist.github.com/fliiiix/259bc74a40c9bf56cef7d9cb9b7441b5)
+
+## Internals
+
+### How to keep track what's downloaded
+
+Each item should have a guid which is saved to `$podcastname/.guid_cache` where each line represents a 
+downloaded podcast. The format for it is `%Y_%m_%d %H:%M|GUID` the date is the download time.
