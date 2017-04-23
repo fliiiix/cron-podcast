@@ -7,7 +7,7 @@ import xml.etree.ElementTree as XML
 
 class Podcast(object):
     def __init__(self, feedlist, download_dir):
-        self.version = "0.1.0"
+        self.version = "0.2.0"
         self.feeds = []
         self.base_folder = download_dir
         self.feedlist = feedlist
