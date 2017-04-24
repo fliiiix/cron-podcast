@@ -7,7 +7,7 @@ import xml.etree.ElementTree as XML
 
 class Podcast(object):
     def __init__(self, feedlist, download_dir):
-        self.version = "0.2.1"
+        self.version = "0.2.2"
         self.feeds = []
         self.base_folder = download_dir
         self.feedlist = feedlist
@@ -127,5 +127,4 @@ if __name__ == "__main__":
 
     if valid:
         p.parse_feed_list()
-        p.create_directory() 
 
