@@ -65,17 +65,16 @@ class Podcast(object):
             (podpath, guids) = pod
 
             for item in xroot.iter('item'):
-                enc = item.find('enclosure')
-                guid = item.find('guid')
+                url = item.find('enclosure').get('url')
+                guid = item.find('guid').text
+                fname = item.find('title').text
+                fname_slug = slugify.slugify(fname)
 
-                url = enc.get('url')
-                uuid = guid.text
-
-                if uuid not in guids:
-                    self.download_podcast(url, uuid, podpath)
+                if guid not in guids:
+                    self.download_podcast(url, guid, fname_slug, podpath)
 
 
-    def download_podcast(self, url, guid, path):
+    def download_podcast(self, url, guid, fname, path):
         p = os.path.dirname(path) 
         print("Downloading %s to %s" % (url, p))
 
