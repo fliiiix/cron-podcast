@@ -4,7 +4,7 @@ Downloads your podcasts.
 
 ## Quickstart
 
-1. install python (Tested with Python 3.4.2 and Python 2.7.10)
+1. install python (Tested with Python 3.7.2)
 2. install virtualenv (probably something like `apt-get install python-virtualenv`)
 3. clone this repo
 4. create a virtualenv with `virtualenv env`
@@ -15,7 +15,7 @@ Downloads your podcasts.
 ## Usage
 
 ```
-Podcatcher 0.2.1
+Podcatcher 0.2.2
 usage: podcatcher.py [-h] [-f FEED] [-d DOWNLOAD_DIR] [--version]
 
 CLI podcast client.
@@ -30,7 +30,7 @@ optional arguments:
 
 ## The config (feedlist.conf)
 
-The configuration is really simple: just add for each podcast a new line with the feed url. 
+The configuration is really simple: just add for each podcast a new line with the feed url.
 
 
 **Example feedlist.conf**
@@ -45,7 +45,7 @@ My Podcastlist can be found in this gist: [fliiiix/259bc74a40c9bf56cef7d9cb9b744
 
 ### How to keep track what's downloaded
 
-Each item should have a guid which is saved to `$podcastname/.guid_cache` where each line represents a 
+Each item should have a guid which is saved to `$podcastname/.guid_cache` where each line represents a
 downloaded podcast. The format for it is `%Y_%m_%d %H:%M|GUID` the date is the download time.
 
 To migrate from 0.1 to 0.2 or later just add `XXXX_XX_XX XX:XX|`.
